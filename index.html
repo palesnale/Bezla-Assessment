@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, intial-scale=1.0">
+        <title>Hotel KPI Calculator</title>
+    </head>
+    <body>
+        <h1>Hotel KPI Calculator</h1>
+        <h2>Please enter in the following values:</h2>
+        <form id="inputForm">
+            <label for="roomsA">Total Rooms Available:</label>
+            <input type="number" min="0" id="roomsA" name="roomsA"><br></br>
+            <label for="roomsA">Rooms Sold:</label>
+            <input type="number" min="0" id="roomsS" name="roomsS"><br></br>
+            <label for="roomsA">Total Room Revenue ($):</label>
+            <input type="number" id="roomsR" name="roomsR"><br></br>
+            <button type="submit">Submit</button>
+        </form>
+        <script>
+            const inputForm = document.getElementById("inputForm");
+            
+            inputForm.addEventListener("submit", (event) => {
+                console.log("event listening...");
+                event.preventDefault();
+                const formData = new FormData(inputForm);
+                let roomsA = formData.get("roomsA");
+                let roomsS = formData.get("roomsS");
+                let roomsR = formData.get("roomsR");
+                if(roomsA == 0) {
+                    document.getElementById("occupancyOut").textContent = "N/A";
+                    document.getElementById("revPAROut").textContent = "N/A";
+                }
+                else {
+                    document.getElementById("occupancyOut").textContent = (roomsS / roomsA * 100).toFixed(2) + "%";
+                    document.getElementById("revPAROut").textContent = "$" + (roomsR / roomsA).toFixed(2);
+                }
+                if(roomsS == 0)
+                    document.getElementById("ADROut").textContent = "N/A";
+                else
+                    document.getElementById("ADROut").textContent = "$" + (roomsR / roomsS).toFixed(2);
+            });
+        </script>
+        <h2>Results:</h2>
+        <div class="results">
+            <p>Occupancy (%): <span id="occupancyOut"></span></p>
+            <p>Average Daily Rate ($): <span id="ADROut"></span></p>
+            <p>Revenue Per Available Room ($): <span id="revPAROut"></span></p>
+        </div>
+    </body>
+</html>
